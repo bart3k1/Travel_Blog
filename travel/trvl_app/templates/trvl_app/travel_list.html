@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Lista podróży {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Podróże:</h1>
+    </div>
+
+    <ul>
+        {% for object in object_list %}
+
+            <li>
+                <a href="{% url 'detail-travel' pk=object.id %}">  Zobacz {{ object.topic }} | </a>
+                <a href="{% url 'update-travel' pk=object.id %}">  Edytuj | </a>
+                <a href="{% url 'delete-travel' pk=object.id %}">  Usuń </a>
+
+            </li>
+
+        {% endfor %}
+    </ul>
+
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% block beforeform %}{% endblock %}
+
+    <div class="form-group">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div >
+                    <div >
+                        {{ field.label_tag }}
+                        {% if field.help_text %}
+                            <sup>{{ field.help_text }}</sup>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div >
+                                <div class="alert alert-danger">{{ error }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div >
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            <input type="submit" value="{% block buttontext %}{% endblock %}">
+        </form>
+    </div>
+
+
+    {% block afterform %}{% endblock %}
+
+{% endblock %}
+
+

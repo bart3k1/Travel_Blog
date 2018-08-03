@@ -1,0 +1,11 @@
+{% extends 'base_form.html' %}
+
+
+{% block beforeform %}
+    <h1>{{ head }}</h1>
+{% endblock %}
+
+
+{% block buttontext %}Zaloguj!{% endblock %}
+
+{% block afterform %} <a href="{% url 'add-user' %}">Stwórz usera </a>{% endblock %}

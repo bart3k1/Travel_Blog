@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Podróż {{ object.id }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Szczegóły:</h1>
+    </div>
+    <div class="container">
+        Autor: {{ object.author }}<br>
+        Tytuł: {{ object.topic }}<br>
+        Treść: {{ object.content }}<br>
+
+    </div>
+
+    <div class="container">
+        <button onclick="goBack()">Wróć</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+{% endblock %}
