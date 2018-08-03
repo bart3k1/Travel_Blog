@@ -4,23 +4,23 @@
 
     {% block beforeform %}{% endblock %}
 
-    <div class="form-group">
+     <div class="panel-body">
         <form action="" method="POST">
             {% csrf_token %}
             {% for field in form %}
-                <div >
-                    <div >
+                <div class="row">
+                    <div class="col-md-2">
                         {{ field.label_tag }}
                         {% if field.help_text %}
                             <sup>{{ field.help_text }}</sup>
                         {% endif %}
                         {% for error in field.errors %}
-                            <div >
+                            <div class="row">
                                 <div class="alert alert-danger">{{ error }}</div>
                             </div>
                         {% endfor %}
                     </div>
-                    <div >
+                    <div class="col-md-10 pull-left">
                         {{ field }}
                     </div>
                 </div>
@@ -28,7 +28,6 @@
             <input type="submit" value="{% block buttontext %}{% endblock %}">
         </form>
     </div>
-
 
     {% block afterform %}{% endblock %}
 

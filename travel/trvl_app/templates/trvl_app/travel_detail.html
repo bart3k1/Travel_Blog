@@ -3,6 +3,7 @@
 {% block title %} Podróż {{ object.id }}{% endblock %}
 
 {% block content %}
+
     <div class="container">
         <h1>Szczegóły:</h1>
     </div>
@@ -13,13 +14,5 @@
 
     </div>
 
-    <div class="container">
-        <button onclick="goBack()">Wróć</button>
-    </div>
 
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
 {% endblock %}
