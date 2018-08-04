@@ -2,16 +2,17 @@
 
 {% block title %} Strona główna {% endblock %}
 
+{% block header %} Cześć {{ user }}  {% endblock %}
+
 {% block content %}
 
     <div class="container">
 
-        <h1> Cześć {{ user }} </h1>
-
+    {{ city_weather.city }} <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image"><br>
+    {{ city_weather.temperature }} °C<br>
+    {{ city_weather.description }}<br>
+    {{ city_weather.date }}
     </div>
-
-
-
 
 {% endblock %}
 

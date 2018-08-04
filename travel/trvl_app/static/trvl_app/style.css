@@ -1,8 +1,18 @@
 body {
-  padding-top: 10px;
+    padding-top: 10px;
+    width: calc(100vw - 34px);
+
 }
 .template {
     align: center;
     padding: 40px 15px;
     text-align: left;
+}
+
+.separator {
+    background-color: lightgray;
+    font-size: 35px;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
 }

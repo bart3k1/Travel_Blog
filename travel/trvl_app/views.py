@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
@@ -12,8 +13,23 @@ from trvl_app.models import Travel
 
 class IndexView(View):
     def get(self, request):
+
+        url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&cnt=7&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
+        city = 'Warszawa'
+        r = requests.get(url.format(city)).json()
+        city_weather = {
+            'city': city,
+            'temperature': r['list'][0]['main']['temp'],
+            'description': r['list'][0]['weather'][0]['description'],
+            'icon': r['list'][0]['weather'][0]['icon'],
+            'date': r['list'][0]['dt_txt'],
+
+        }
+        ctx = {
+            'city_weather': city_weather
+        }
         if request.user.is_authenticated:
-            return render(request, "index.html")
+            return render(request, "index.html", ctx)
         return redirect('login')
 
 

@@ -4,16 +4,16 @@ from trvl_app.validators import validate_username
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=128, label="User ")
+    username = forms.CharField(max_length=64, label="User ")
     password = forms.CharField(widget=forms.PasswordInput, label="Hasło")
 
 
 class AddUserForm(forms.Form):
-    username = forms.CharField(max_length=128, validators=[validate_username], label="Użytkownik")
+    username = forms.CharField(max_length=64, validators=[validate_username], label="Użytkownik")
     password = forms.CharField(widget=forms.PasswordInput, label="Hasło")
     password_c = forms.CharField(widget=forms.PasswordInput, label="Powt. hasło")
-    first_name = forms.CharField(max_length=128, label="Imię")
-    last_name = forms.CharField(max_length=128, label="Nazwisko")
+    first_name = forms.CharField(max_length=64, label="Imię")
+    last_name = forms.CharField(max_length=64, label="Nazwisko")
     email = forms.EmailField(label="e-mail")
 
     def clean_password_c(self):
