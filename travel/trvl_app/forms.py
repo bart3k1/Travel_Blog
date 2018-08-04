@@ -22,3 +22,8 @@ class AddUserForm(forms.Form):
         if password != password2:
             raise ValidationError('Hasła się różnią')
         return password
+
+
+class CityForm(forms.Form):
+    name = forms.CharField(max_length=64, label="Wpisz miasto", widget=forms.TextInput(attrs={'placeholder': 'np. London'}))
+
