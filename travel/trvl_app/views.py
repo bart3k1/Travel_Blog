@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from trvl_app.forms import (AddUserForm, LoginForm, CityForm)
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
+
+from trvl_app.forms import AddUserForm, CityForm, LoginForm
 from trvl_app.models import Travel
 
 
@@ -15,7 +16,7 @@ class IndexView(View):
 
     def get(self, request):
         url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&cnt=7&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
-        city = 'Warszawa'
+        city = 'Warsaw'
         r = requests.get(url.format(city)).json()
         city_weather = {
             'city': city,

@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+
 from trvl_app.validators import validate_username
 
 
@@ -26,4 +27,3 @@ class AddUserForm(forms.Form):
 
 class CityForm(forms.Form):
     name = forms.CharField(max_length=64, label="Wpisz miasto", widget=forms.TextInput(attrs={'placeholder': 'np. London'}))
-
