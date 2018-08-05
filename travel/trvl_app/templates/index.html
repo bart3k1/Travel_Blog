@@ -7,20 +7,24 @@
 {% block content %}
 
     <div class="container">
-    <div class="col-md-3">
-    {{ city_weather.city }} <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image"><br>
-    {{ city_weather.temperature }} °C<br>
-    {{ city_weather.description }}<br>
-    {{ city_weather.date }}
-    </div>
-<p></p>
-     <div class="col-md-3">
-        <form method="post">
-            {% csrf_token %}
-            {{ city_weather.form.as_p }}
-            <button type="submit">Sprawdź pogodę</button>
-        </form>
-    </div>
+        <div class="col-md-3">
+            {{ city_weather.city }} <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png"
+                                         alt="Image"><br>
+            {{ city_weather.temperature }} °C<br>
+            {{ city_weather.description }}<br>
+            {{ city_weather.date }}
+        </div>
+        <p></p>
+        <div class="col-md-3">
+            <form method="post">
+                {% csrf_token %}
+                {{ city_weather.form.as_p }}
+
+                <button type="submit">Sprawdź pogodę</button>
+            </form>
+        </div>
+
+
     </div>
 
 {% endblock %}

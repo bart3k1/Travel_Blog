@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'travel.wsgi.application'
 #         'NAME': 'travel_blog',
 #         'ENGINE': 'mysql.connector.django',
 #         'USER': 'root',
-#         'PASSWORD': 'coderslab',
+#         'PASSWORD': '020280',
 #         'OPTIONS': {
 #             'autocommit': True,
 #         },

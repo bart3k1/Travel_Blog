@@ -1,7 +1,12 @@
+import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError
-
+from django.forms import SelectDateWidget
 from trvl_app.validators import validate_username
+
+
+
 
 
 class LoginForm(forms.Form):
@@ -23,6 +28,12 @@ class AddUserForm(forms.Form):
         if password != password2:
             raise ValidationError('Hasła się różnią')
         return password
+
+
+year = datetime.date.today().year
+date_today = datetime.date.today()
+date_month_plus = date_today + datetime.timedelta(days=5)
+date_month_minus = date_today
 
 
 class CityForm(forms.Form):
