@@ -2,6 +2,7 @@ import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -37,22 +38,26 @@ class IndexView(View):
     def post(self, request):
         form = CityForm(request.POST)
         if form.is_valid():
-            url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&cnt=7&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
-            city = form.cleaned_data['name']
-            r = requests.get(url.format(city)).json()
-            city_weather = {
-                'city': city,
-                'temperature': r['list'][0]['main']['temp'],
-                'description': r['list'][0]['weather'][0]['description'],
-                'icon': r['list'][0]['weather'][0]['icon'],
-                'date': r['list'][0]['dt_txt'],
-                'form': form,
+            try:
+                url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&cnt=7&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
+                city = form.cleaned_data['name']
+                r = requests.get(url.format(city)).json()
+                city_weather = {
+                    'city': city,
+                    'temperature': r['list'][0]['main']['temp'],
+                    'description': r['list'][0]['weather'][0]['description'],
+                    'icon': r['list'][0]['weather'][0]['icon'],
+                    'date': r['list'][0]['dt_txt'],
+                    'form': form,
 
-            }
-            ctx = {
-                'city_weather': city_weather
-            }
-            return render(request, "index.html", ctx)
+                }
+                ctx = {
+                    'city_weather': city_weather
+                }
+                return render(request, "index.html", ctx)
+            except KeyError:
+                city = form.cleaned_data['name']
+                return HttpResponse("Nie ma takiego miasta: %s." %city)
         ctx = {
             'form': form,
         }
@@ -115,8 +120,7 @@ class UserLogoutView(View):
         return redirect('login')
 
 
-class TravelCreateView(PermissionRequiredMixin, CreateView):
-    permission_required = 'trvl_app.add_travel'
+class TravelCreateView(CreateView):
     model = Travel
     fields = ('topic', 'content',)
     success_url = reverse_lazy('list-travel')
