@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>USUNĄĆ ??? {{ object }}</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Usuń">
+    </form>
+
+{% endblock %}

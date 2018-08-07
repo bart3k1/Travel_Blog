@@ -25,7 +25,7 @@ class AddUserForm(forms.Form):
         return password
 
 
-def get_my_choices_2():
+def get_my_choices():
     url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
     city = 'Warsaw'
     choices_list_2 = []
@@ -37,5 +37,5 @@ def get_my_choices_2():
 
 class CityForm(forms.Form):
     name = forms.CharField(max_length=64, label="Wpisz miasto", widget=forms.TextInput(attrs={'placeholder': 'np. London'}))
-    dates = forms.ChoiceField(choices=get_my_choices_2(), label="Wybierz datę i godzinę")
+    dates = forms.ChoiceField(choices=get_my_choices(), label="Wybierz datę i godzinę")
 

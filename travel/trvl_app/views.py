@@ -10,28 +10,31 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from trvl_app.forms import AddUserForm, CityForm, LoginForm
 from trvl_app.models import Travel
+from django.contrib.auth.models import Permission
+
 
 
 class IndexView(View):
 
     def get(self, request):
-        url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
-        city = 'Warsaw'
-        r = requests.get(url.format(city)).json()
-        city_weather = {
-            'city': city,
-            'temperature': r['list'][0]['main']['temp'],
-            'description': r['list'][0]['weather'][0]['description'],
-            'icon': r['list'][0]['weather'][0]['icon'],
-            'date': r['list'][0]['dt_txt'],
-            'form': CityForm(),
-        }
-        ctx = {
-            'city_weather': city_weather
-        }
         if request.user.is_authenticated:
+            url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
+            city = 'Warsaw'
+            r = requests.get(url.format(city)).json()
+            city_weather = {
+                'city': city,
+                'temperature': r['list'][0]['main']['temp'],
+                'description': r['list'][0]['weather'][0]['description'],
+                'icon': r['list'][0]['weather'][0]['icon'],
+                'date': r['list'][0]['dt_txt'],
+                'form': CityForm(),
+            }
+            ctx = {
+                'city_weather': city_weather
+            }
             return render(request, "index.html", ctx)
-        return redirect('login')
+        else:
+            return redirect('login')
 
     def post(self, request):
         form = CityForm(request.POST)
@@ -40,6 +43,7 @@ class IndexView(View):
                 url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
                 city = form.cleaned_data['name']
                 dates = form.cleaned_data['dates']
+                print(dates)
                 r = requests.get(url.format(city)).json()
                 for i in r['list']:
                     if str(dates) in i['dt_txt']:
@@ -82,6 +86,8 @@ class AddUserView(View):
                                             first_name=form.cleaned_data['first_name'],
                                             last_name=form.cleaned_data['last_name'],
                                             email=form.cleaned_data['email'])
+            permission = Permission.objects.get(name='Can add Podróż')
+            user.user_permissions.add(permission)
             return redirect('login')
         ctx = {
             'form': form,
@@ -122,7 +128,8 @@ class UserLogoutView(View):
         return redirect('login')
 
 
-class TravelCreateView(CreateView):
+class TravelCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = 'trvl_app.add_travel'
     model = Travel
     fields = ('topic', 'content',)
     success_url = reverse_lazy('list-travel')
@@ -132,15 +139,18 @@ class TravelCreateView(CreateView):
         return super().form_valid(form)
 
 
-class TravelListView(ListView):
+class TravelListView(PermissionRequiredMixin, ListView):
+    permission_required = 'trvl_app.add_travel'
     model = Travel
 
 
-class TravelDetailView(DetailView):
+class TravelDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = 'trvl_app.add_travel'
     model = Travel
 
 
-class TravelUpdateView(UpdateView):
+class TravelUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'trvl_app.add_travel'
     model = Travel
     fields = ('topic', 'content',)
     success_url = reverse_lazy('list-travel')
