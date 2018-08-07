@@ -1,17 +1,16 @@
 import requests
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission, User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
+
 from trvl_app.forms import AddUserForm, CityForm, LoginForm
 from trvl_app.models import Travel
-from django.contrib.auth.models import Permission
-
 
 
 class IndexView(View):

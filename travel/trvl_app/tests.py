@@ -1,9 +1,7 @@
-from django.http import HttpRequest
-from django.test import TestCase
-from django.urls import reverse
 from django.contrib.auth.models import User
-from trvl_app.forms import AddUserForm, CityForm
-from trvl_app import views
+from django.test import TestCase
+
+from trvl_app.forms import AddUserForm
 
 
 class LoginPageTests(TestCase):
