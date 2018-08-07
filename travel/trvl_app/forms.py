@@ -1,12 +1,7 @@
-import datetime
-
+import requests
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import SelectDateWidget
 from trvl_app.validators import validate_username
-
-
-
 
 
 class LoginForm(forms.Form):
@@ -30,11 +25,17 @@ class AddUserForm(forms.Form):
         return password
 
 
-year = datetime.date.today().year
-date_today = datetime.date.today()
-date_month_plus = date_today + datetime.timedelta(days=5)
-date_month_minus = date_today
+def get_my_choices_2():
+    url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
+    city = 'Warsaw'
+    choices_list_2 = []
+    r = requests.get(url.format(city)).json()
+    for i in range(len(r['list'])):
+        choices_list_2.append((str(r['list'][i]['dt_txt']), str(r['list'][i]['dt_txt'])))
+    return tuple(choices_list_2)
 
 
 class CityForm(forms.Form):
     name = forms.CharField(max_length=64, label="Wpisz miasto", widget=forms.TextInput(attrs={'placeholder': 'np. London'}))
+    dates = forms.ChoiceField(choices=get_my_choices_2(), label="Wybierz datę i godzinę")
+

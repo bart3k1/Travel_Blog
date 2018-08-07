@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
-
 from trvl_app.forms import AddUserForm, CityForm, LoginForm
 from trvl_app.models import Travel
 
@@ -16,7 +15,7 @@ from trvl_app.models import Travel
 class IndexView(View):
 
     def get(self, request):
-        url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&cnt=7&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
+        url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
         city = 'Warsaw'
         r = requests.get(url.format(city)).json()
         city_weather = {
@@ -25,7 +24,7 @@ class IndexView(View):
             'description': r['list'][0]['weather'][0]['description'],
             'icon': r['list'][0]['weather'][0]['icon'],
             'date': r['list'][0]['dt_txt'],
-            'form': CityForm,
+            'form': CityForm(),
         }
         ctx = {
             'city_weather': city_weather
@@ -40,13 +39,17 @@ class IndexView(View):
             try:
                 url = 'http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&lang=pl&appid=2a11288255bccc9dcaed8d0467ac0ec8'
                 city = form.cleaned_data['name']
+                dates = form.cleaned_data['dates']
                 r = requests.get(url.format(city)).json()
+                for i in r['list']:
+                    if str(dates) in i['dt_txt']:
+                        result = i
                 city_weather = {
                     'city': city,
-                    'temperature': r['list'][0]['main']['temp'],
-                    'description': r['list'][0]['weather'][0]['description'],
-                    'icon': r['list'][0]['weather'][0]['icon'],
-                    'date': r['list'][0]['dt_txt'],
+                    'temperature': result['main']['temp'],
+                    'description': result['weather'][0]['description'],
+                    'icon': result['weather'][0]['icon'],
+                    'date': result['dt_txt'],
                     'form': form,
 
                 }
