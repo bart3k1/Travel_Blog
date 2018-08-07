@@ -20,6 +20,8 @@ class AddUserForm(forms.Form):
     def clean_password_c(self):
         password = self.cleaned_data['password']
         password2 = self.cleaned_data['password_c']
+        if len(password) < 6:
+            raise ValidationError('Za krótkie hasło - min 6 znaków')
         if password != password2:
             raise ValidationError('Hasła się różnią')
         return password
